@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-
+import axios from 'axios';
 export default class Create extends Component {
     constructor(props) {
         super(props);
@@ -42,11 +42,19 @@ export default class Create extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-        alert('The Values are : ' + (this.state.person_name)+ ' ' +(this.state.business_name ) + ' ' + (this.state.business_gst_number) )
+        const obj = {
+            person_name : this.state.person_name,
+            business_name : this.state.business_name,
+            business_gst_number : this.state.business_gst_number
+
+        };
+        axios.post('http://localhost:4000/business/add',obj)
+            .then(res => console.log(res.data));
+
         this.setState({
                 person_name: '',
                 business_name: '',
-            business_gst_number: ''
+                business_gst_number: ''
             }
         );
 
@@ -69,7 +77,7 @@ export default class Create extends Component {
                                onChange={this.onChangeBusinessName} className='form-control'/>
                     </div>
                     <div className='form-group'>
-                        <label>Add phone number: </label>
+                        <label>Add Gst Number: </label>
                         <input type='text' value={this.state.business_gst_number}
                                onChange={this.onChangeGstNumber} className='form-control'/>
                     </div>
